@@ -1,0 +1,105 @@
+CREATE OR REPLACE function ingresardatos()
+returns void as $$
+declare valor numeric
+BEGIN
+	for contador in 1..100000 loop
+		insert into cliente(nombre) values ('Cliente #'  contador);
+		end loop;
+	for contador1 in 1..50000 loop
+		valor = random()(25000-100)+1;
+		insert into producto (descripcion,valor) values ('Product #'  contador1,valor );
+		end loop;
+	for contador2 in 1..2500 loop
+		insert into bodega (descripcion) values ('Bodega #'  contador2);
+		end loop;
+end $$
+language plpgsql volatile;
+
+DO $$
+BEGIN
+   FOR counter IN REVERSE 5..1 LOOP
+      RAISE NOTICE 'Counter: %', counter;
+   END LOOP;
+END; $$
+
+DO $$
+BEGIN
+   FOR contador IN REVERSE 500000..1 LOOP
+	  insert into persona ( cedula_id_persona, nombre_persona, apellido_persona, celular_persona, email_persona, fecha_nacimiento_persona, sexo_persona, id_direccion) values ( contador, chr(random_between(65,90)) || 'Pnombre-' || contador || chr(random_between(97,122)), chr(random_between(97,122)) || 'Papellido-' || contador+1 || chr(random_between(65,90)), '021-41'|| contador || '-12' || contador, 'correo'|| contador ||'@gmail.com', (random_between(1990,2020) || '-' || random_between(1,12) || '-' || random_between(1,25))::timestamp ,gender(contador) , random_between(1,1000));
+   END LOOP;
+END; $$
+
+
+nsert into producto (producto_precio_venta, nombre_producto, producto_precio_compra, producto_nombre_generico, receta_para_producto, stock_producto) values (random_between(5000,1000000), chr(random_between(65,90)) || 'medicina' || contador || chr(random_between(97,122)), random_between(100,4999),chr(random_between(65,90)) || 'generico-medicina' || contador || chr(random_between(97,122)) , random_between(1,0)::boolean, random_between(1,1000));
+
+
+   insert into oferta (descuento_producto, razon_oferta, oferta_activo) values (random_between(10,900), chr(random_between(65,90)) || 'RAZONOFERTA' || contador || chr(random_between(97,122)), random_between(1,0)::boolean);
+
+
+
+DO $$
+BEGIN
+   FOR contador IN REVERSE 500000..14 LOOP
+   INSERT INTO cliente_x_socio (id_cliente_pk, fecha_inicio_socio)
+   VALUES ( contador ,(random_between(1990,2020) || '-' || random_between(1,12) || '-' || random_between(1,25))::timestamp);
+     	END LOOP;
+END; $$
+
+
+
+DO $$
+BEGIN
+   FOR contador IN REVERSE 500000..1 LOOP
+   INSERT INTO cargo_x_farmacia (fecha_contratado_fin_empleado_farmacia, fecha_contratado_empleado_farmacia, monto_sueldo_empleado_x_farmacia, id_empleado_pk,id_farmacia_pk,id_cargo_nombre)
+   VALUES( (random_between(2008,2020) || '-' || random_between(1,12) || '-' || random_between(1,25))::timestamp,  (random_between(1990,2008) || '-' || random_between(1,12) || '-' || random_between(1,25))::timestamp, random_between(100000,5000000), random_between(14,400000), random_between(14,400000),random_between(1,1000));
+   	END LOOP;
+END; $$
+
+
+DO $$
+BEGIN
+   FOR contador IN REVERSE 500000..14 LOOP
+   INSERT INTO producto_detalle(id_producto_pk,id_tipo_producto_pk, id_lote_producto)
+   VALUES (contador, random_between(1,1000), random_between(1,10000000)::varchar);
+   END LOOP;
+END; $$
+
+
+
+DO $$
+BEGIN
+   FOR contador IN 1..500000 LOOP
+   INSERT INTO pedido_cliente(id_pedido_cliente_pk,id_cliente_pk, id_empleado_pk, id_farmacia_pk, fecha_entrega_pedido_cliente)
+   VALUES (contador,random_between(14,499000), random_between(14,499980), random_between(14,499980), (random_between(1990,2020) || '-' || random_between(1,12) || '-' || random_between(1,25))::timestamp);
+   END LOOP;
+END; $$
+
+
+DO $$
+BEGIN
+   FOR contador IN 1..500000 LOOP
+   INSERT INTO producto_pedidocliente(item_cantidad, id_producto_pk, id_pedido_cliente_pk) 
+   VALUES(random_between(1,40),random_between(1,500000),random_between(1,500000));
+   END LOOP;
+END; $$
+
+SELECT * FROM pedido_cliente
+DO $$
+BEGIN
+   FOR contador IN 1..500000 LOOP
+   UPDATE pedido_cliente SET monto_pedido = random_between(10000,5000000) WHERE id_pedido_cliente_pk = contador; 
+   END LOOP;
+END; $$
+
+------------------------------------------------------------------------------------------------------
+DO $$
+BEGIN
+   FOR contador IN 1..500000 BY 2 LOOP
+   INSERT INTO devolucion_de_cliente(id_devolucion_de_cliente,id_pedido_cliente_pk, razon_devolucion_cliente, fecha_devolucion) 
+   VALUES(contador, random_between(1,40),chr(random_between(65,90)) || 'RAZON' || contador || chr(random_between(97,122)),(random_between(2008,2020) || '-' || random_between(1,12) || '-' || random_between(1,25))::timestamp);
+   END LOOP;
+END; $$
+
+
+
+354831 -> pedido cliente
